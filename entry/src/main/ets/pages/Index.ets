@@ -1,6 +1,7 @@
 @Entry
 @Component
 struct Index {
+  @State message: string = 'Hello World  + linYu + YangZhao';
   @State message: string = 'Hello World  + linYu';
   @State linYu: string = 'linYu  ';
 
