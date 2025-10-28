@@ -2,6 +2,7 @@
 @Component
 struct Index {
   @State message: string = 'Hello World  + linYu';
+  @State linYu: string = 'linYu';
 
   build() {
     RelativeContainer() {
