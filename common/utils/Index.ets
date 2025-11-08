@@ -1,0 +1,1 @@
+export {default as AIResponseUtils} from './src/main/ets/utils/GetAIResponseUtils'

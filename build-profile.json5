@@ -28,7 +28,7 @@
   "modules": [
     {
       "name": "entry",
-      "srcPath": "./entry",
+      "srcPath": "./product/entry",
       "targets": [
         {
           "name": "default",
@@ -37,6 +37,22 @@
           ]
         }
       ]
+    },
+    {
+      "name": "utils",
+      "srcPath": "./common/utils",
+    },
+    {
+      "name": "type",
+      "srcPath": "./common/type",
+    },
+    {
+      "name": "constants",
+      "srcPath": "./common/constants",
+    },
+    {
+      "name": "aichat",
+      "srcPath": "./feature/aichat"
     }
   ]
 }
