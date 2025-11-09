@@ -1,4 +1,4 @@
-import {IObserver} from 'type'
+import {Markdown} from '@luvi/lv-markdown-in'
 import { ChatController } from '../controller/chatController'
 import { ChatObserver } from './ChatSubject'
 
@@ -26,13 +26,15 @@ export struct testView {
           Button('发送')
             .width(100)
             .onClick(() => {
+              this.response = ''
               this.controller.request(this.request)
             })
         }
         .width('100%')
 
-        Row() {
-          Text(this.response)
+        Scroll() {
+          Markdown({text: this.response})
+          //Text(this.response)
         }
         .width('100%')
         //MainPage({ dataPreferences: dataPreferences_, getRdbStore: getRdbStore })

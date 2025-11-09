@@ -8,7 +8,9 @@ import { rcp } from '@kit.RemoteCommunicationKit';
 
 const baseOption: ClientOptions = {
   baseURL: 'https://api.zhizengzeng.com/v1/',
-  apiKey: 'sk-zk23671daa73bc6f34fb47e781e45cac13368fa233d6dd81'
+  apiKey:
+    'sk-zk289e92ae5709e49834e71927d29be210668fa377c229e2'
+  //'sk-zk23671daa73bc6f34fb47e781e45cac13368fa233d6dd81'
 }
 
 class GetAIResponseUtils {
@@ -27,7 +29,7 @@ class GetAIResponseUtils {
     this.chatSession = this.chatManger.create({
       model: 'gpt-3.5-turbo',
       stream: true,
-      max_tokens: 200,
+      //max_tokens: 200,
       messages: this.messageArr
     }, {onData}).session
   }

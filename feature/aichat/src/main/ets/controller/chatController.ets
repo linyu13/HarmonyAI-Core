@@ -1,5 +1,5 @@
 import { AiMessage, IObserver, ISubject, ResData, UserMessage } from "type";
-import { AIResponseUtils } from "utils";
+import AIResponseUtils from '../model/GetAIResponseUtils'
 
 export class ChatController implements ISubject {
   private fullContent:string = ''
@@ -10,22 +10,25 @@ export class ChatController implements ISubject {
       content: reqContent,
       role: 'user'
     }
+
     AIResponseUtils.requestChat(requestBody,(chunks: ResData[]) => {
       let curContent: string = ''
-
       chunks.map((chunk: ResData) => {
         if(chunk.choices[0].finish_reason == "stop"){
           let aiMessage: AiMessage = {
             content:this.fullContent,
             role: "assistant"
           }
+          console.log('[chatController]' + this.fullContent)
           AIResponseUtils.requestOver(aiMessage)
+        }else {
+          curContent += chunk.choices[0].delta.content;
+          this.notifyObserver(chunk.choices[0].delta.content || '');
         }
-        curContent += chunk.choices[0].delta.content;
-        this.notifyObserver(chunk.choices[0].delta.content || '');
       })
       this.fullContent += curContent;
     })
+
   }
 
   cancel(){
