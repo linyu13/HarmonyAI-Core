@@ -8,6 +8,7 @@ export struct BottomBar {
 
         })
         .layoutWeight(1)
+        .hitTestBehavior(HitTestMode.Block)
       Button('发送')
         .width(100)
         .onClick(() => {
