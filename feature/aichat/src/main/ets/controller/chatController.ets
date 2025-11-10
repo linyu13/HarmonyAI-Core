@@ -1,13 +1,16 @@
-import { AiMessage, ResData, UserMessage } from "type";
-import { AIResponseUtils } from "utils";
+import { AiMessage, IObserver, ISubject, ResData, UserMessage } from "type";
+import AIResponseUtils from '../model/GetAIResponseUtils'
 
-export class ChatController{
+export class ChatController implements ISubject {
   private fullContent:string = ''
+  private observers: IObserver[] = []
+
   request(reqContent: string){
     let requestBody: UserMessage = {
       content: reqContent,
       role: 'user'
     }
+
     AIResponseUtils.requestChat(requestBody,(chunks: ResData[]) => {
       let curContent: string = ''
       chunks.map((chunk: ResData) => {
@@ -16,14 +19,34 @@ export class ChatController{
             content:this.fullContent,
             role: "assistant"
           }
+          console.log('[chatController]' + this.fullContent)
           AIResponseUtils.requestOver(aiMessage)
+        }else {
+          curContent += chunk.choices[0].delta.content;
+          this.notifyObserver(chunk.choices[0].delta.content || '');
         }
-        curContent += chunk.choices[0].delta.content;
       })
       this.fullContent += curContent;
     })
-  }
-  cancel(){
 
+  }
+
+  cancel(){
+    AIResponseUtils.requestCancel()
+  }
+
+  registerObserver(observer: IObserver): void {
+    if(!this.observers.includes(observer)){
+      this.observers.push(observer)
+    }
+  }
+
+  removeObserver(observer: IObserver): void {
+    this.observers = this.observers.filter(item => item != observer)
+  }
+  notifyObserver(data: string): void {
+    this.observers.forEach( observer => {
+      observer.onEmit(data);
+    })
   }
 }

@@ -1,25 +1,47 @@
-@Entry
-@Component
-struct Index {
-  @State message: string = 'Hello World  + linYu + YangZhao';
-  @State message2: string = 'Hello World  + linYu';
-  @State linYu: string = 'linYu  ';
+import { ChatView, testView} from 'aichat'
+import { BottomBar } from '../view/BottomBar'
+import { TopBar } from '../view/TopBar'
+import { KeyboardAvoidMode, UIContext } from '@kit.ArkUI';
 
+let arr: number[] = []
+for(let i = 0; i<100; i++){
+  arr.push(i);
+}
+
+@Entry
+@ComponentV2
+struct Index {
+  private inputController: TextInputController = new TextInputController()
+  aboutToAppear(): void {
+    this.getUIContext().setKeyboardAvoidMode(KeyboardAvoidMode.RESIZE_WITH_CARET)
+  }
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
-        .onClick(() => {
-          this.message = 'Welcome';
-        })
+
+     Column(){
+      TopBar()
+        .width('100%')
+
+       Scroll(){
+         Column(){
+           ForEach(arr,(item: number) => {
+             Text(item.toString())
+               .height(80)
+           })
+         }
+         .width('100%')
+         .backgroundColor(Color.Pink)
+       }
+       .layoutWeight(1)
+       .width('100%')
+
+       BottomBar({controller: this.inputController})
+        .width('100%')
     }
     .height('100%')
     .width('100%')
+    .padding({left:10,right:10})
+    .onTouch(() => {
+      this.inputController.stopEditing()
+    })
   }
 }
