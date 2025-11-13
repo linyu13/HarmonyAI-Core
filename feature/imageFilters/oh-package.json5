@@ -7,6 +7,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     'utils': 'file:../../common/utils',
-    'type': 'file:../../common/type'
+    'type': 'file:../../common/type',
   }
 }

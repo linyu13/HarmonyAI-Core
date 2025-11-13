@@ -1,7 +1,8 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { AppStorageV2, KeyboardAvoidMode, window } from '@kit.ArkUI';
+import { KeyboardAvoidMode, window } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
+import { HMRouterMgr } from '@hadss/hmrouter';
 
 
 const DOMAIN = 0x0000;
@@ -13,6 +14,10 @@ export default class EntryAbility extends UIAbility {
     } catch (err) {
       hilog.error(DOMAIN, 'testTag', 'Failed to set colorMode. Cause: %{public}s', JSON.stringify(err));
     }
+    HMRouterMgr.init({
+      context: this.context
+    })
+
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
   }
 
@@ -32,7 +37,7 @@ export default class EntryAbility extends UIAbility {
         .then((window) => {
           window.getUIContext().setKeyboardAvoidMode(KeyboardAvoidMode.RESIZE_WITH_CARET)
         })
-        .catch((err: BusinessError)=>{
+        .catch((err: BusinessError) => {
           console.log('[setKeyboardAvoidMode]' + err.message)
         })
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');

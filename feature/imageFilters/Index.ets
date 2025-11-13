@@ -1,1 +1,1 @@
-export { MainPage } from './src/main/ets/components/MainPage';
+export { ImagePickerSheet } from './src/main/ets/view/ImagePicker';
