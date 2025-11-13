@@ -53,6 +53,10 @@
     {
       "name": "aichat",
       "srcPath": "./feature/aichat"
+    },
+    {
+      "name": "imageFilters",
+      "srcPath": "./feature/imageFilters",
     }
   ]
 }
