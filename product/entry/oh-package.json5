@@ -7,7 +7,8 @@
   "license": "",
   "dependencies": {
     "aichat": "file:../../feature/aichat",
-    "constants": "file:../../common/constants"
+    "constants": "file:../../common/constants",
+    "imagefilters": "file:../../feature/imageFilters",
   }
 }
 
