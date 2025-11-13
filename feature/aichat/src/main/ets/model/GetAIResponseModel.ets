@@ -2,7 +2,7 @@ import { OpenAI } from '@iuroc/openai'
 import { ChatCompletions, OnDataCallback } from '@iuroc/openai/src/main/ets/ChatCompletions'
 import { ClientOptions } from '@iuroc/openai/src/main/ets/openai@4.73.1/index'
 import { ChatCompletionChunk } from '@iuroc/openai/src/main/ets/openai@4.73.1/resources';
-import { IMessage } from 'type';
+import { IMessage, IObserver, ISubject, NotifyEventType } from 'type';
 import { rcp } from '@kit.RemoteCommunicationKit';
 
 
@@ -13,11 +13,12 @@ const baseOption: ClientOptions = {
   //'sk-zk23671daa73bc6f34fb47e781e45cac13368fa233d6dd81'
 }
 
-class GetAIResponseUtils {
+class GetAIResponseModel implements ISubject{
   private openai: OpenAI;
   private chatManger: ChatCompletions;
   private messageArr: IMessage[] = []
   private chatSession?: rcp.Session
+  private observers: IObserver[] = []
 
   constructor(option: ClientOptions) {
     this.openai = new OpenAI(option)
@@ -36,6 +37,7 @@ class GetAIResponseUtils {
 
   requestOver(message: IMessage){
     this.messageArr.push(message)
+    this.notifyObserver('')
   }
 
   requestCancel(){
@@ -43,5 +45,22 @@ class GetAIResponseUtils {
       this.chatSession.cancel()
     }
   }
+  getMegList(){
+    return JSON.parse(JSON.stringify(this.messageArr)) as IMessage[]
+  }
+
+  registerObserver(observer: IObserver): void {
+    if(!this.observers.includes(observer)){
+      this.observers.push(observer)
+    }
+  }
+  removeObserver(observer: IObserver): void {
+    this.observers = this.observers.filter(item => item != observer)
+  }
+  notifyObserver(data: string): void {
+    this.observers.forEach( observer => {
+      observer.onEmit(data, NotifyEventType.MODEL);
+    })
+  }
 }
-export default new GetAIResponseUtils(baseOption)
+export default new GetAIResponseModel(baseOption)
