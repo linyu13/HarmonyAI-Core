@@ -3,7 +3,7 @@ import { IMessage, IObserver } from "type"
 import { BaseDataSource } from "utils"
 import { ChatDateSource } from "../model/ChatDateSource"
 import { ChatMessageItem } from "./ChatMessageItem"
-import { ChatObserver } from "./ChatSubject"
+import { ChatObserver } from "./ChatObserver"
 import { window } from "@kit.ArkUI"
 import { BusinessError } from "@kit.BasicServicesKit"
 

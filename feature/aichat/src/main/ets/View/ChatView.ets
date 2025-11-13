@@ -5,7 +5,7 @@ import { ChatMessageItem } from './ChatMessageItem'
 import { BaseDataSource } from 'utils'
 import { IMessage, IObserver, NotifyEventType } from 'type'
 import { ChatMessageList } from './ChatMessageList'
-import { ChatObserver } from './ChatSubject'
+import { ChatObserver } from './ChatObserver'
 import chatControl from '../controller/chatController'
 
 @ComponentV2
