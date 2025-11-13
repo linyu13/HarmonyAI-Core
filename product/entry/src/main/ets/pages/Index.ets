@@ -1,9 +1,10 @@
+import { ChatView, testView } from 'aichat'
 import { BottomBar } from '../view/BottomBar'
 import { TopBar } from '../view/TopBar'
 @Entry
 @ComponentV2
 struct Index {
-  private inputController: TextInputController = new TextInputController()
+  @Provider('textControl') inputController: TextInputController = new TextInputController()
   build() {
 
      Column(){
@@ -11,12 +12,12 @@ struct Index {
         .width('100%')
        //对话列表
        Column(){
-
-
+        ChatView()
+         //testView()
        }
        .layoutWeight(1)
        .width('100%')
-       BottomBar({controller: this.inputController})
+       BottomBar()
         .width('100%')
     }
     .height('100%')
