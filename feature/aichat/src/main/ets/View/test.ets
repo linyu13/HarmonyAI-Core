@@ -1,56 +1,17 @@
-import {Markdown} from '@luvi/lv-markdown-in'
-import { IMessage, NotifyEventType } from 'type'
-import chatControl from '../controller/chatController'
-import { ChatDateSource } from '../model/ChatDateSource'
-import { ChatMessageItem } from './ChatMessageItem'
-import { ChatObserver } from './ChatSubject'
 
-@ComponentV2
+@Component
 export struct testView {
-  @Local response: string = ''
-  @Local request: string = ''
-  private update = (data: string,eventType:NotifyEventType) => { this.response += data}
-  private curMeg: IMessage = {content:' ',role:'user'}
-  private chatObserver: ChatObserver = new ChatObserver(this.update)
-  private chatDataSource: ChatDateSource = new ChatDateSource()
-  private cout: number = 0;
-  aboutToAppear(): void {
-    chatControl.registerObserver(this.chatObserver)
-    this.chatDataSource.setDataArr([])
-  }
-
   build() {
-    WaterFlow() {
-      LazyForEach(this.chatDataSource,(item: IMessage) => {
-        FlowItem(){
-          Text(item.content as string)
-        }
-      },(item: IMessage) => JSON.stringify(item))
-      FlowItem(){
-        Column(){
-          Button('push')
-            .onClick(() => {
-              this.chatDataSource.pushData(this.curMeg)
-            })
-          Button('change')
-            .onClick(() => {
-              this.curMeg.content += '123'
-              this.chatDataSource.lastDataChange()
-            })
-          Button('init')
-            .onClick(() => {
-              this.curMeg = {content: `new${this.cout}`,role:'user'}
-            })
-        }
-      }
+    Stack({ alignContent: Alignment.Top }) {
+      // 使用Gauge组件并裁剪为半圆
+      Gauge({ value: 50, min: 0, max: 100 })
+        .width(200)
+        .height(100)
+        .clip(true)  // 裁剪底部半圆
+        .colors([[Color.Blue, 1]])
+        .startAngle(270) // 起始角度为270度（正下方）
+        .endAngle(90)    // 结束角度为90度（正上方）
     }
-    .rowsGap(16)
+    .height(100)  // 裁剪为半圆高度
   }
 }
-let arr: IMessage[] = [
-  {content: '1234',role:'user'},
-  {content: '1234',role:'assistant'},
-  {content: '1234',role:'user'},
-  {content: '1234',role:'assistant'},
-  {content: '1234',role:'user'},
-]
