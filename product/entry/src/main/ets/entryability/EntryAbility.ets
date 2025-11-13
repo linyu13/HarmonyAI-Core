@@ -1,6 +1,7 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { AppStorageV2, window } from '@kit.ArkUI';
+import { AppStorageV2, KeyboardAvoidMode, window } from '@kit.ArkUI';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 
 const DOMAIN = 0x0000;
@@ -27,6 +28,13 @@ export default class EntryAbility extends UIAbility {
         hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
         return;
       }
+      windowStage.getMainWindow()
+        .then((window) => {
+          window.getUIContext().setKeyboardAvoidMode(KeyboardAvoidMode.RESIZE_WITH_CARET)
+        })
+        .catch((err: BusinessError)=>{
+          console.log('[setKeyboardAvoidMode]' + err.message)
+        })
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
   }

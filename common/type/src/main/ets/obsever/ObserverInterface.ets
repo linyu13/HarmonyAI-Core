@@ -1,6 +1,7 @@
+import { NotifyEventType } from "./NotifyEventType";
 
 export interface IObserver{
-  onEmit(data: string): void;
+  onEmit(data: string, eventType: NotifyEventType): void;
 }
 
 export interface ISubject{
@@ -8,5 +9,5 @@ export interface ISubject{
 
   removeObserver(observer: IObserver):void;
 
-  notifyObserver(data: string): void;
+  notifyObserver(data: string, eventType: NotifyEventType): void;
 }
